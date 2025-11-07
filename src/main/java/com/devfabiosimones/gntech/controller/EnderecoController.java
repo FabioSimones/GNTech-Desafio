@@ -1,17 +1,15 @@
 package com.devfabiosimones.gntech.controller;
 
 import com.devfabiosimones.gntech.entity.Endereco;
-import com.devfabiosimones.gntech.entity.Pedido;
 import com.devfabiosimones.gntech.entity.dto.EnderecoDTO;
 import com.devfabiosimones.gntech.repository.EnderecoReposity;
 import com.devfabiosimones.gntech.service.EnderecoService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.util.Collections;
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -26,12 +24,17 @@ public class EnderecoController {
         this.enderecoService = enderecoService;
     }
 
-    @GetMapping("/cep/{cep}")
+    @Transactional
+    @PostMapping("/{cep}")
     public ResponseEntity<Endereco> consultarEndereco(@PathVariable String cep) {
         Endereco endereco = enderecoService.buscarOuSalvarEndereco(cep);
-        return ResponseEntity.ok(endereco);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{cep}")
+                .buildAndExpand(endereco.getCep()).toUri();
+
+        return ResponseEntity.created(uri).body(endereco);
     }
 
+    @Transactional(readOnly = true)
     @GetMapping
     public ResponseEntity<List<EnderecoDTO>> listarEnderecos() {
         List<EnderecoDTO> dtos = enderecoRepository.findAll().stream()
@@ -42,5 +45,6 @@ public class EnderecoController {
 
         return ResponseEntity.ok(dtos);
     }
+
 
 }

@@ -3,9 +3,13 @@ package com.devfabiosimones.gntech.service;
 import com.devfabiosimones.gntech.config.ViaCepConfig;
 import com.devfabiosimones.gntech.entity.Endereco;
 import com.devfabiosimones.gntech.entity.dto.EnderecoDTO;
+import com.devfabiosimones.gntech.projections.EnderecoDetailsProjection;
 import com.devfabiosimones.gntech.repository.EnderecoReposity;
-import org.springframework.beans.BeanUtils;
+import com.devfabiosimones.gntech.service.exceptions.ResourceAlreadyExistsException;
+import com.devfabiosimones.gntech.service.exceptions.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class EnderecoService {
@@ -18,13 +22,28 @@ public class EnderecoService {
         this.enderecoReposity = enderecoReposity;
     }
 
+
     public Endereco buscarOuSalvarEndereco(String cep) {
-        return enderecoReposity.findByCep(cep)
-                .orElseGet(() -> {
-                    EnderecoDTO dto = viaCepConfig.consultarCep(cep);
-                    Endereco endereco = new Endereco();
-                    BeanUtils.copyProperties(dto, endereco);
-                    return enderecoReposity.save(endereco);
-                });
+
+        List<EnderecoDetailsProjection> existeBanco = enderecoReposity.buscaCepNoBanco(cep);
+        if (!existeBanco.isEmpty()) {
+            throw new ResourceAlreadyExistsException("CEP já existe no banco de dados: " + cep);
+        }
+
+        EnderecoDTO dto = viaCepConfig.consultarCep(cep);
+        if (dto == null || dto.getCep() == null) {
+            throw new ResourceNotFoundException("CEP inválido ou não encontrado: " + cep);
+        }
+
+        Endereco endereco = new Endereco();
+        endereco.setCep(dto.getCep().replaceAll("\\D", ""));
+        endereco.setLogradouro(dto.getLogradouro());
+        endereco.setBairro(dto.getBairro());
+        endereco.setLocalidade(dto.getLocalidade());
+        endereco.setUf(dto.getUf());
+        endereco.setDdd(dto.getDdd());
+
+        return enderecoReposity.save(endereco);
     }
+
 }

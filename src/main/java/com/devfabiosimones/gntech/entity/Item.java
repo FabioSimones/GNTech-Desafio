@@ -26,13 +26,13 @@ public class Item {
     @Column(precision = 10, scale = 2, nullable = false)
     private BigDecimal precoUnitario;
 
-    @OneToMany(mappedBy = "item")
-    private Set<Pedido> pedidos = new HashSet<>();
+    @ManyToMany(mappedBy = "itens")
+    private List<Pedido> pedidos;
 
     public Item() {
     }
 
-    public Item(Long id, String nomeProduto, Integer quantidade, BigDecimal precoUnitario, Set<Pedido> pedidos) {
+    public Item(Long id, String nomeProduto, Integer quantidade, BigDecimal precoUnitario, List<Pedido> pedidos) {
         this.id = id;
         this.nomeProduto = nomeProduto;
         this.quantidade = quantidade;
@@ -72,11 +72,11 @@ public class Item {
         this.precoUnitario = precoUnitario;
     }
 
-    public Set<Pedido> getPedidos() {
+    public List<Pedido> getPedidos() {
         return pedidos;
     }
 
-    public void setPedidos(Set<Pedido> pedidos) {
+    public void setPedidos(List<Pedido> pedidos) {
         this.pedidos = pedidos;
     }
 

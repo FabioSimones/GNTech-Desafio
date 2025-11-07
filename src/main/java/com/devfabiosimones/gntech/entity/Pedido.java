@@ -29,19 +29,23 @@ public class Pedido {
     @JoinColumn(name = "endereco_id")
     private Endereco endereco;
 
-    @ManyToOne
-    @JoinColumn(name = "item_id")
-    private Item item;
+    @ManyToMany
+    @JoinTable(
+            name = "pedido_item",
+            joinColumns = @JoinColumn(name = "pedido_id"),
+            inverseJoinColumns = @JoinColumn(name = "item_id")
+    )
+    private List<Item> itens;
 
     public Pedido() {
     }
 
-    public Pedido(Long id, Instant dtCriacao, String nomeCliente, Endereco endereco, Item item) {
+    public Pedido(Long id, Instant dtCriacao, String nomeCliente, Endereco endereco, List<Item> itens) {
         this.id = id;
         this.dtCriacao = dtCriacao;
         this.nomeCliente = nomeCliente;
         this.endereco = endereco;
-        this.item = item;
+        this.itens = itens;
     }
 
     public Long getId() {
@@ -76,12 +80,12 @@ public class Pedido {
         this.endereco = endereco;
     }
 
-    public Item getItem() {
-        return item;
+    public List<Item> getItens() {
+        return itens;
     }
 
-    public void setItem(Item item) {
-        this.item = item;
+    public void setItens(List<Item> itens) {
+        this.itens = itens;
     }
 
     @Override

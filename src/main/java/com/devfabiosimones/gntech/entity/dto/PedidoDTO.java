@@ -3,9 +3,6 @@ package com.devfabiosimones.gntech.entity.dto;
 import com.devfabiosimones.gntech.entity.Endereco;
 import com.devfabiosimones.gntech.entity.Item;
 import com.devfabiosimones.gntech.entity.Pedido;
-import jakarta.persistence.Column;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 
 import java.time.Instant;
 
@@ -15,6 +12,9 @@ public class PedidoDTO {
     private String nomeCliente;
     private Endereco endereco;
     private Item item;
+
+    public PedidoDTO() {
+    }
 
     public PedidoDTO(Instant dtCriacao, String nomeCliente, Endereco endereco, Item item) {
         this.dtCriacao = dtCriacao;

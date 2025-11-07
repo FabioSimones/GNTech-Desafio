@@ -34,13 +34,13 @@ public class Endereco {
     @Column(length = 3)
     private Integer ddd;
 
-    @OneToMany(mappedBy = "endereco")
-    private Set<Pedido> pedidos = new HashSet<>();
+    @OneToMany(mappedBy = "endereco", cascade = CascadeType.ALL)
+    private List<Pedido> pedidos;
 
     public Endereco() {
     }
 
-    public Endereco(Long id, String cep, String logradouro, String bairro, String localidade, String uf, Integer ddd, Set<Pedido> pedidos) {
+    public Endereco(Long id, String cep, String logradouro, String bairro, String localidade, String uf, Integer ddd, List<Pedido> pedidos) {
         this.id = id;
         this.cep = cep;
         this.logradouro = logradouro;
@@ -107,11 +107,11 @@ public class Endereco {
         this.ddd = ddd;
     }
 
-    public Set<Pedido> getPedidos() {
+    public List<Pedido> getPedidos() {
         return pedidos;
     }
 
-    public void setPedidos(Set<Pedido> pedidos) {
+    public void setPedidos(List<Pedido> pedidos) {
         this.pedidos = pedidos;
     }
 

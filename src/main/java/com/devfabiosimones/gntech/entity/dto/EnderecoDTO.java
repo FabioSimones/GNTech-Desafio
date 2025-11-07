@@ -6,7 +6,6 @@ import jakarta.persistence.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class EnderecoDTO {
 
@@ -17,6 +16,9 @@ public class EnderecoDTO {
     private String uf;
     private Integer ddd;
     private List<Pedido> pedidos = new ArrayList<>();
+
+    public EnderecoDTO() {
+    }
 
     public EnderecoDTO(String cep, String logradouro, String bairro, String localidade, String uf, Integer ddd, List<Pedido> pedidos) {
         this.cep = cep;

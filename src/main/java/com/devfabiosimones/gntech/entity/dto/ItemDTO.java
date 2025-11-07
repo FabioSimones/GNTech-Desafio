@@ -7,9 +7,7 @@ import jakarta.persistence.OneToMany;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class ItemDTO {
 
@@ -17,6 +15,9 @@ public class ItemDTO {
     private Integer quantidade;
     private BigDecimal precoUnitario;
     private List<Pedido> pedidos = new ArrayList<>();
+
+    public ItemDTO() {
+    }
 
     public ItemDTO(String nomeProduto, Integer quantidade, BigDecimal precoUnitario, List<Pedido> pedidos) {
         this.nomeProduto = nomeProduto;

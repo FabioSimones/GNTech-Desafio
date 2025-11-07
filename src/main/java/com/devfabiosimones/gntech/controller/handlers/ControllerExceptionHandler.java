@@ -1,9 +1,7 @@
 package com.devfabiosimones.gntech.controller.handlers;
 
 import com.devfabiosimones.gntech.entity.dto.CustomError;
-import com.devfabiosimones.gntech.service.exceptions.ForbiddenException;
-import com.devfabiosimones.gntech.service.exceptions.ResourceAlreadyExistsException;
-import com.devfabiosimones.gntech.service.exceptions.ResourceNotFoundException;
+import com.devfabiosimones.gntech.service.exceptions.*;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +9,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.time.Instant;
+import java.util.stream.Collectors;
 
 @ControllerAdvice
 public class ControllerExceptionHandler {
@@ -35,5 +34,11 @@ public class ControllerExceptionHandler {
         CustomError err = new CustomError(Instant.now(), status.value(), e.getMessage(), request.getRequestURI());
         return ResponseEntity.status(status).body(err);
     }
-	
+
+    @ExceptionHandler(BadRequestException.class)
+    public ResponseEntity<CustomError> badRequest(BadRequestException e, HttpServletRequest request) {
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+        CustomError err = new CustomError(Instant.now(), status.value(), e.getMessage(), request.getRequestURI());
+        return ResponseEntity.status(status).body(err);
+    }
 }

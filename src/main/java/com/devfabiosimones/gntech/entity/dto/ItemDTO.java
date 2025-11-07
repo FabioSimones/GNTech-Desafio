@@ -2,8 +2,10 @@ package com.devfabiosimones.gntech.entity.dto;
 
 import com.devfabiosimones.gntech.entity.Item;
 import com.devfabiosimones.gntech.entity.Pedido;
-import jakarta.persistence.Column;
-import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;

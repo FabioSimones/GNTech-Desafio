@@ -1,10 +1,8 @@
 package com.devfabiosimones.gntech.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.Min;
 
 import java.math.BigDecimal;
 import java.util.*;
@@ -21,12 +19,14 @@ public class Item {
     private String nomeProduto;
 
     @Column(length = 10)
+    @Min(1)
     private Integer quantidade;
 
     @Column(precision = 10, scale = 2, nullable = false)
+    @DecimalMin("0.01")
     private BigDecimal precoUnitario;
 
-    @ManyToMany(mappedBy = "itens")
+    @ManyToMany(mappedBy = "itens", fetch = FetchType.EAGER)
     private List<Pedido> pedidos;
 
     public Item() {

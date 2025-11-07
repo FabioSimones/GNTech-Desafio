@@ -26,8 +26,8 @@ public class EnderecoController {
 
     @Transactional
     @PostMapping("/{cep}")
-    public ResponseEntity<Endereco> consultarEndereco(@PathVariable String cep) {
-        Endereco endereco = enderecoService.buscarOuSalvarEndereco(cep);
+    public ResponseEntity<Endereco> salvarEndereco(@PathVariable String cep) {
+        Endereco endereco = enderecoService.buscarESalvarEndereco(cep);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{cep}")
                 .buildAndExpand(endereco.getCep()).toUri();
 

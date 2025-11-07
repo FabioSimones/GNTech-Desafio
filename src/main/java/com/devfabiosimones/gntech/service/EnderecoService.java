@@ -23,18 +23,15 @@ public class EnderecoService {
     }
 
 
-    public Endereco buscarOuSalvarEndereco(String cep) {
+    public Endereco buscarESalvarEndereco(String cep) {
+        buscaCepBanco(cep);
+        EnderecoDTO dto = consultaCepExterno(cep);
+        Endereco endereco = salvaBanco(dto);
 
-        List<EnderecoDetailsProjection> existeBanco = enderecoReposity.buscaCepNoBanco(cep);
-        if (!existeBanco.isEmpty()) {
-            throw new ResourceAlreadyExistsException("CEP já existe no banco de dados: " + cep);
-        }
+        return enderecoReposity.save(endereco);
+    }
 
-        EnderecoDTO dto = viaCepConfig.consultarCep(cep);
-        if (dto == null || dto.getCep() == null) {
-            throw new ResourceNotFoundException("CEP inválido ou não encontrado: " + cep);
-        }
-
+    private static Endereco salvaBanco(EnderecoDTO dto) {
         Endereco endereco = new Endereco();
         endereco.setCep(dto.getCep().replaceAll("\\D", ""));
         endereco.setLogradouro(dto.getLogradouro());
@@ -42,8 +39,22 @@ public class EnderecoService {
         endereco.setLocalidade(dto.getLocalidade());
         endereco.setUf(dto.getUf());
         endereco.setDdd(dto.getDdd());
+        return endereco;
+    }
 
-        return enderecoReposity.save(endereco);
+    private EnderecoDTO consultaCepExterno(String cep) {
+        EnderecoDTO dto = viaCepConfig.consultarCep(cep);
+        if (dto == null || dto.getCep() == null) {
+            throw new ResourceNotFoundException("CEP inválido ou não encontrado: " + cep);
+        }
+        return dto;
+    }
+
+    private void buscaCepBanco(String cep) {
+        List<EnderecoDetailsProjection> existeBanco = enderecoReposity.buscaCepNoBanco(cep);
+        if (!existeBanco.isEmpty()) {
+            throw new ResourceAlreadyExistsException("CEP já existe no banco de dados: " + cep);
+        }
     }
 
 }

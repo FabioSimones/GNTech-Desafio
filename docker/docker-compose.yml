@@ -1,0 +1,9 @@
+services:
+  postgres:
+    image: 'postgres:latest'
+    environment:
+      - 'POSTGRES_DB=gntech'
+      - 'POSTGRES_PASSWORD=gntech'
+      - 'POSTGRES_USER=gntech'
+    ports:
+      - '5432:5432'

@@ -13,41 +13,41 @@ import java.util.List;
 
 public class ItemDTO {
 
+    private Long id;
     private String nomeProduto;
-    private Integer quantidade;
     private BigDecimal precoUnitario;
-    private List<Pedido> pedidos = new ArrayList<>();
+    private Integer quantidade;
 
     public ItemDTO() {
     }
 
-    public ItemDTO(String nomeProduto, Integer quantidade, BigDecimal precoUnitario, List<Pedido> pedidos) {
+    public ItemDTO(Long id, String nomeProduto, BigDecimal precoUnitario, Integer quantidade) {
+        this.id = id;
         this.nomeProduto = nomeProduto;
-        this.quantidade = quantidade;
         this.precoUnitario = precoUnitario;
-        this.pedidos = pedidos;
+        this.quantidade = quantidade;
     }
 
     public ItemDTO(Item entity) {
-        nomeProduto = entity.getNomeProduto();
-        quantidade = entity.getQuantidade();
-        precoUnitario = entity.getPrecoUnitario();
-        pedidos = new ArrayList<>(entity.getPedidos());
+        this.id = entity.getId();
+        this.nomeProduto = entity.getNomeProduto();
+        this.precoUnitario = entity.getPrecoUnitario();
+        this.quantidade = entity.getQuantidade();
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getNomeProduto() {
         return nomeProduto;
     }
 
-    public Integer getQuantidade() {
-        return quantidade;
-    }
-
     public BigDecimal getPrecoUnitario() {
         return precoUnitario;
     }
 
-    public List<Pedido> getPedidos() {
-        return pedidos;
+    public Integer getQuantidade() {
+        return quantidade;
     }
 }

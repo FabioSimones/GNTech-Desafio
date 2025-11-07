@@ -12,6 +12,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/itens")
@@ -35,9 +36,11 @@ public class ItemController {
         return ResponseEntity.created(uri).body(item);
     }
 
-    @Transactional(readOnly = true)
     @GetMapping
-    public List<Item> listarItens() {
-        return itemRepository.findAll();
+    public ResponseEntity<List<ItemDTO>> listarItens() {
+        List<ItemDTO> itens = itemService.listarItens().stream()
+                .map(ItemDTO::new)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(itens);
     }
 }

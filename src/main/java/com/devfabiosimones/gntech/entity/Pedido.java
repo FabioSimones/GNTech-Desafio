@@ -1,5 +1,6 @@
 package com.devfabiosimones.gntech.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.time.Instant;

@@ -1,5 +1,6 @@
 package com.devfabiosimones.gntech.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Min;
@@ -26,13 +27,14 @@ public class Item {
     @DecimalMin("0.01")
     private BigDecimal precoUnitario;
 
-    @ManyToMany(mappedBy = "itens", fetch = FetchType.EAGER)
-    private List<Pedido> pedidos;
+    @ManyToMany(mappedBy = "itens", fetch = FetchType.LAZY)
+    @JsonIgnore
+    private Set<Pedido> pedidos = new HashSet<>();
 
     public Item() {
     }
 
-    public Item(Long id, String nomeProduto, Integer quantidade, BigDecimal precoUnitario, List<Pedido> pedidos) {
+    public Item(Long id, String nomeProduto, Integer quantidade, BigDecimal precoUnitario, Set<Pedido> pedidos) {
         this.id = id;
         this.nomeProduto = nomeProduto;
         this.quantidade = quantidade;
@@ -72,11 +74,11 @@ public class Item {
         this.precoUnitario = precoUnitario;
     }
 
-    public List<Pedido> getPedidos() {
+    public Set<Pedido> getPedidos() {
         return pedidos;
     }
 
-    public void setPedidos(List<Pedido> pedidos) {
+    public void setPedidos(Set<Pedido> pedidos) {
         this.pedidos = pedidos;
     }
 

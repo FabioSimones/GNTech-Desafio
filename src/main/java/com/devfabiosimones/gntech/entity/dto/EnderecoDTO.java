@@ -1,11 +1,13 @@
 package com.devfabiosimones.gntech.entity.dto;
 
 import com.devfabiosimones.gntech.entity.Endereco;
+import com.devfabiosimones.gntech.entity.Item;
 import com.devfabiosimones.gntech.entity.Pedido;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class EnderecoDTO {
 
@@ -15,7 +17,7 @@ public class EnderecoDTO {
     private String localidade;
     private String uf;
     private Integer ddd;
-    private List<Pedido> pedidos = new ArrayList<>();
+    private List<PedidoDTOResumido> pedidos = new ArrayList<>();
 
     public EnderecoDTO() {
     }
@@ -36,10 +38,21 @@ public class EnderecoDTO {
         localidade = entity.getLocalidade();
         uf = entity.getUf();
         ddd = entity.getDdd();
-        pedidos = new ArrayList<>(entity.getPedidos());
+        if (entity.getPedidos() != null) {
+            for (Pedido pedido : entity.getPedidos()) {
+                List<Long> itemIds = pedido.getItens().stream()
+                        .map(Item::getId)
+                        .collect(Collectors.toList());
+
+                this.pedidos.add(new PedidoDTOResumido(
+                        pedido.getNomeCliente(),
+                        pedido.getEndereco().getCep(),
+                        itemIds
+                ));
+            }
+        }
 
     }
-
     public String getCep() {
         return cep;
     }
@@ -64,7 +77,9 @@ public class EnderecoDTO {
         return ddd;
     }
 
-    public List<Pedido> getPedidos() {
+    public List<PedidoDTOResumido> getPedidos() {
         return pedidos;
     }
 }
+
+

@@ -18,10 +18,8 @@ public class ItemService {
         this.itemRepository = itemRepository;
     }
 
-    @Transactional
     public Item criarItem(ItemDTO dto) {
         verificaCampoItens(dto);
-
         Item item = new Item();
         item.setNomeProduto(dto.getNomeProduto());
         item.setQuantidade(dto.getQuantidade());
@@ -42,7 +40,6 @@ public class ItemService {
         }
     }
 
-    @Transactional
     public List<Item> listarItens() {
         return itemRepository.findAll();
     }

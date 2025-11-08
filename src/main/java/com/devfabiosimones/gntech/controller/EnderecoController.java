@@ -2,6 +2,7 @@ package com.devfabiosimones.gntech.controller;
 
 import com.devfabiosimones.gntech.entity.Endereco;
 import com.devfabiosimones.gntech.entity.dto.EnderecoDTO;
+import com.devfabiosimones.gntech.entity.dto.ItemDTO;
 import com.devfabiosimones.gntech.repository.EnderecoReposity;
 import com.devfabiosimones.gntech.service.EnderecoService;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +12,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/enderecos")
@@ -37,14 +39,9 @@ public class EnderecoController {
     @Transactional(readOnly = true)
     @GetMapping
     public ResponseEntity<List<EnderecoDTO>> listarEnderecos() {
-        List<EnderecoDTO> dtos = enderecoRepository.findAll().stream()
-                .map(e -> new EnderecoDTO(
-                        e.getCep(), e.getLogradouro(), e.getBairro(),
-                        e.getLocalidade(), e.getUf(), e.getDdd(), e.getPedidos()))
-                .toList();
-
-        return ResponseEntity.ok(dtos);
+        List<EnderecoDTO> dto = enderecoService.listarEnderecos().stream()
+                .map(EnderecoDTO::new)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(dto);
     }
-
-
 }

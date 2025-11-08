@@ -2,12 +2,14 @@ package com.devfabiosimones.gntech.service;
 
 import com.devfabiosimones.gntech.config.ViaCepConfig;
 import com.devfabiosimones.gntech.entity.Endereco;
+import com.devfabiosimones.gntech.entity.Item;
 import com.devfabiosimones.gntech.entity.dto.EnderecoDTO;
 import com.devfabiosimones.gntech.projections.EnderecoDetailsProjection;
 import com.devfabiosimones.gntech.repository.EnderecoReposity;
 import com.devfabiosimones.gntech.service.exceptions.ResourceAlreadyExistsException;
 import com.devfabiosimones.gntech.service.exceptions.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -22,13 +24,16 @@ public class EnderecoService {
         this.enderecoReposity = enderecoReposity;
     }
 
-
     public Endereco buscarESalvarEndereco(String cep) {
         buscaCepBanco(cep);
         EnderecoDTO dto = consultaCepExterno(cep);
         Endereco endereco = salvaBanco(dto);
 
         return enderecoReposity.save(endereco);
+    }
+
+    public List<Endereco> listarEnderecos() {
+        return enderecoReposity.findAll();
     }
 
     private static Endereco salvaBanco(EnderecoDTO dto) {

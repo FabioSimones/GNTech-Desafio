@@ -33,7 +33,6 @@ public class PedidoDTO {
         if (entity.getEndereco() != null) {
             this.cep = entity.getEndereco().getCep();
         }
-
         if (entity.getItens() != null) {
             for (Item item : entity.getItens()) {
                 this.itens.add(new ItemDTOResumido(item.getId(), item.getNomeProduto()));

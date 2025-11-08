@@ -27,7 +27,7 @@ public class Item {
     @DecimalMin("0.01")
     private BigDecimal precoUnitario;
 
-    @ManyToMany(mappedBy = "itens", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "itens", fetch = FetchType.EAGER)
     @JsonIgnore
     private Set<Pedido> pedidos = new HashSet<>();
 

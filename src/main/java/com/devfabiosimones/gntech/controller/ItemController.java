@@ -36,6 +36,7 @@ public class ItemController {
         return ResponseEntity.created(uri).body(item);
     }
 
+    @Transactional(readOnly = true)
     @GetMapping
     public ResponseEntity<List<ItemDTO>> listarItens() {
         List<ItemDTO> itens = itemService.listarItens().stream()

@@ -18,11 +18,9 @@ import java.util.stream.Collectors;
 @RequestMapping("/enderecos")
 public class EnderecoController {
 
-    private final EnderecoReposity enderecoRepository;
     private final EnderecoService enderecoService;
 
-    public EnderecoController(EnderecoReposity enderecoRepository, EnderecoService enderecoService) {
-        this.enderecoRepository = enderecoRepository;
+    public EnderecoController(EnderecoService enderecoService) {
         this.enderecoService = enderecoService;
     }
 

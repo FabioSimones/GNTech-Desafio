@@ -9,6 +9,7 @@ import com.devfabiosimones.gntech.repository.EnderecoReposity;
 import com.devfabiosimones.gntech.repository.ItemRepository;
 import com.devfabiosimones.gntech.repository.PedidoRepository;
 import com.devfabiosimones.gntech.service.exceptions.BadRequestException;
+import com.devfabiosimones.gntech.service.exceptions.NotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -20,14 +21,11 @@ import java.util.List;
 public class PedidoService {
     private final PedidoRepository pedidoRepository;
     private final ItemRepository itemRepository;
-    private final EnderecoService enderecoService;
     private final EnderecoReposity enderecoReposity;
 
-    public PedidoService(PedidoRepository pedidoRepository, ItemRepository itemRepository,
-                         EnderecoService enderecoService, EnderecoReposity enderecoReposity) {
+    public PedidoService(PedidoRepository pedidoRepository, ItemRepository itemRepository, EnderecoReposity enderecoReposity) {
         this.pedidoRepository = pedidoRepository;
         this.itemRepository = itemRepository;
-        this.enderecoService = enderecoService;
         this.enderecoReposity = enderecoReposity;
     }
 
@@ -37,7 +35,7 @@ public class PedidoService {
         List<Item> itens = itemRepository.findAllById(itemIds);
 
         if (itens.size() != itemIds.size()) {
-            throw new BadRequestException("Um ou mais itens informados não foram encontrados.");
+            throw new NotFoundException("Um ou mais itens informados não foram encontrados.");
         }
 
         Pedido pedido = new Pedido();
@@ -51,7 +49,7 @@ public class PedidoService {
     private Endereco verificaCepCadastrado(String cep) {
         String cepNormalizado = cep.replaceAll("[^\\d]", "");
         return enderecoReposity.findByCep(cepNormalizado)
-                .orElseThrow(() -> new BadRequestException("CEP não cadastrado: " + cepNormalizado));
+                .orElseThrow(() -> new NotFoundException("CEP não cadastrado: " + cepNormalizado));
     }
 
     public List<Pedido> buscarPorCep(String cep) {

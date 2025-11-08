@@ -2,14 +2,12 @@ package com.devfabiosimones.gntech.service;
 
 import com.devfabiosimones.gntech.config.ViaCepConfig;
 import com.devfabiosimones.gntech.entity.Endereco;
-import com.devfabiosimones.gntech.entity.Item;
 import com.devfabiosimones.gntech.entity.dto.EnderecoDTO;
 import com.devfabiosimones.gntech.projections.EnderecoDetailsProjection;
 import com.devfabiosimones.gntech.repository.EnderecoReposity;
 import com.devfabiosimones.gntech.service.exceptions.ResourceAlreadyExistsException;
 import com.devfabiosimones.gntech.service.exceptions.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 

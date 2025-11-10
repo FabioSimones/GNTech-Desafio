@@ -169,10 +169,21 @@ com\devfabiosimones\gntech/
 
 ```bash
 {
-  "cep": "88032000",
-  "logradouro": "Rua das Flores",
-  "bairro": "Centro",
-  "pedidos": []
+  "cep": "88161381",
+        "logradouro": "Rua Nery Waldomiro da Costa",
+        "bairro": "Fundos",
+        "localidade": "Biguaçu",
+        "uf": "SC",
+        "ddd": 48,
+        "pedidos": [
+            {
+                "nomeCliente": "Fábio Simones",
+                "cep": "88161381",
+                "itemIds": [
+                    1
+                ]
+            }
+        ]
 }
 ```
 
